@@ -53,6 +53,7 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
 nnoremap <silent> <Leader>gd :YcmCompleter GoTo<CR>
+nnoremap <silent> <Leader>gd :YcmCompleter GoToInclude<CR>
 nnoremap <silent> <Leader>gf :YcmCompleter FixIt<CR>
 
 nnoremap <leader>h :wincmd h<CR>
