@@ -13,15 +13,13 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 
-set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'morhetz/gruvbox'
 Plug 'mbbill/undotree'
 Plug 'git@github.com:Valloric/YouCompleteMe.git'
 Plug 'vim-utils/vim-man'
+Plug 'vim-airline/vim-airline'
 Plug 'lyuts/vim-rtags'
 
 call plug#end()
@@ -42,3 +40,5 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
+set backspace=indent,eol,start
