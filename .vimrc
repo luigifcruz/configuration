@@ -9,23 +9,29 @@ set nowrap
 set smartcase
 set noswapfile
 set nobackup
+set nowritebackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
 set termguicolors
 set guicursor=
 set relativenumber
-
+set hidden
 set updatetime=300
 set shortmess+=c
+set colorcolumn=115
 
-set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+
+if has("patch-8.1.1564")
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'mbbill/undotree'
-"Plug 'git@github.com:Valloric/YouCompleteMe.git'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-utils/vim-man'
 Plug 'lyuts/vim-rtags'
@@ -33,8 +39,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'sheerun/vim-polyglot'
 
 Plug 'gruvbox-community/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
 
@@ -97,15 +101,21 @@ function! s:check_back_space() abort
 endfunction
 
 inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
 
-nmap <leader>qf  <Plug>(coc-fix-current)
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+nmap <leader>qf <Plug>(coc-fix-current)
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
@@ -115,3 +125,15 @@ nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+
+let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-prettier',
+    \ 'coc-pairs',
+    \ 'coc-tsserver',
+    \ 'coc-eslint',
+    \ 'coc-clangd',
+    \ 'coc-yaml',
+    \ 'coc-python',
+    \ 'coc-marketplace',
+    \ ]
