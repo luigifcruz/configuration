@@ -37,6 +37,7 @@ Plug 'vim-utils/vim-man'
 Plug 'lyuts/vim-rtags'
 Plug 'tpope/vim-fugitive'
 Plug 'sheerun/vim-polyglot'
+Plug 'airblade/vim-gitgutter'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
