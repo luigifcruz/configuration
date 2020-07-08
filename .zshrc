@@ -8,4 +8,7 @@ plugins=(
   colored-man-pages
 )
 
+alias vim="nvim"
+alias vi="nvim"
+
 source $ZSH/oh-my-zsh.sh
