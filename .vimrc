@@ -20,6 +20,7 @@ set hidden
 set updatetime=300
 set shortmess+=c
 set colorcolumn=115
+set encoding=UTF-8
 
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
@@ -38,11 +39,11 @@ Plug 'lyuts/vim-rtags'
 Plug 'tpope/vim-fugitive'
 Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
+Plug 'preservim/nerdtree'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
-
 call plug#end()
 
 let g:gruvbox_contrast_dark = 'hard'
@@ -65,7 +66,8 @@ nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+nnoremap <leader>pv :NERDTree<CR>
+nnoremap <leader>pc :NERDTreeClose<CR>
 
 set backspace=indent,eol,start
 
