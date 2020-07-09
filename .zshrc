@@ -11,4 +11,6 @@ plugins=(
 alias vim="nvim"
 alias vi="nvim"
 
+if [ "$TMUX" = "" ]; then tmux; fi
+
 source $ZSH/oh-my-zsh.sh
