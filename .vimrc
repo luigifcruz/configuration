@@ -138,5 +138,6 @@ let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-yaml',
     \ 'coc-python',
+    \ 'coc-jedi',
     \ 'coc-marketplace',
     \ ]
