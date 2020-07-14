@@ -21,6 +21,7 @@ set updatetime=300
 set shortmess+=c
 set colorcolumn=115
 set encoding=UTF-8
+set cmdheight=2
 
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
@@ -123,6 +124,12 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
+" Git Fugitive
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+nmap <leader>gs :G<CR>
+
+" Coc
 nmap <leader>qf <Plug>(coc-fix-current)
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
