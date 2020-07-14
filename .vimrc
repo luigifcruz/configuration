@@ -40,11 +40,16 @@ Plug 'tpope/vim-fugitive'
 Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdtree'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
 call plug#end()
+
+call coc#config('clangd', {
+\   'semanticHighlighting': v:true
+\ })
 
 let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
