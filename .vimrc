@@ -21,9 +21,9 @@ set updatetime=300
 set shortmess+=c
 set colorcolumn=115
 set encoding=UTF-8
-set cmdheight=2
+set cmdheight=1
 
-highlight ColorColumn ctermbg=0 guibg=lightgrey
+highlight ColorColumn ctermbg=0 guibg=black
 
 if has("patch-8.1.1564")
   set signcolumn=number
@@ -42,8 +42,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdtree'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-
-Plug 'gruvbox-community/gruvbox'
+Plug 'brooth/far.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
 call plug#end()
@@ -52,14 +52,7 @@ call coc#config('clangd', {
 \   'semanticHighlighting': v:true
 \ })
 
-let g:gruvbox_contrast_dark = 'hard'
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-let g:gruvbox_invert_selection='0'
-
-colorscheme gruvbox
+colorscheme dracula
 set background=dark
 
 let mapleader = " "
@@ -74,6 +67,7 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>pv :NERDTree<CR>
 nnoremap <leader>pc :NERDTreeClose<CR>
+nnoremap <leader>pe :CocCommand python.setInterpreter<CR>
 
 set backspace=indent,eol,start
 
@@ -141,12 +135,6 @@ nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 
-" Unbind Arrow
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-
 let g:coc_global_extensions = [
     \ 'coc-json',
     \ 'coc-prettier',
@@ -156,6 +144,7 @@ let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-yaml',
     \ 'coc-python',
-    \ 'coc-jedi',
+    \ 'coc-julia',
+    \ 'coc-html',
     \ 'coc-marketplace',
     \ ]
