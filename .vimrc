@@ -23,6 +23,8 @@ set colorcolumn=115
 set encoding=UTF-8
 set cmdheight=1
 
+set mouse=a
+
 highlight ColorColumn ctermbg=0 guibg=black
 
 if has("patch-8.1.1564")
@@ -33,6 +35,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'igankevich/mesonic'
 Plug 'mbbill/undotree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-utils/vim-man'
@@ -46,6 +49,7 @@ Plug 'brooth/far.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
+Plug 'tpope/vim-eunuch'
 call plug#end()
 
 call coc#config('clangd', {
@@ -138,6 +142,7 @@ nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 let g:coc_global_extensions = [
     \ 'coc-json',
     \ 'coc-prettier',
+    \ 'coc-jedi',
     \ 'coc-pairs',
     \ 'coc-tsserver',
     \ 'coc-eslint',
@@ -146,5 +151,6 @@ let g:coc_global_extensions = [
     \ 'coc-python',
     \ 'coc-julia',
     \ 'coc-html',
+    \ 'coc-cmake',
     \ 'coc-marketplace',
     \ ]
