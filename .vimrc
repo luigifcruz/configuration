@@ -141,6 +141,16 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
+" Create alias for uppercase after :
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+call SetupCommandAlias("W","w")
+call SetupCommandAlias("Q","q")
+call SetupCommandAlias("Wq","wq")
+
 " Git Fugitive
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
