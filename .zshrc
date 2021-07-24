@@ -1,4 +1,5 @@
 export ZSH="/home/luigi/.oh-my-zsh"
+export TERM=xterm-256color
 
 ZSH_THEME="robbyrussell"
 
@@ -15,3 +16,5 @@ plugins=(
 if [ "$TMUX" = "" ]; then tmux; fi
 
 source $ZSH/oh-my-zsh.sh
+
+PATH=$PATH:/opt/Xilinx/Vivado/2021.1/bin
