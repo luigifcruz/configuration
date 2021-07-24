@@ -25,6 +25,8 @@ set cmdheight=1
 
 set mouse=a
 
+let g:vimspector_enable_mappings = 'HUMAN'
+
 highlight ColorColumn ctermbg=0 guibg=black
 
 if has("patch-8.1.1564")
@@ -33,8 +35,15 @@ else
   set signcolumn=yes
 endif
 
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
 call plug#begin('~/.vim/plugged')
 
+Plug 'puremourning/vimspector'
 Plug 'igankevich/mesonic'
 Plug 'mbbill/undotree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -46,18 +55,28 @@ Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdtree'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'brooth/far.vim'
+Plug 'ayu-theme/ayu-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-eunuch'
+Plug 'sharkdp/bat'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 
 call coc#config('clangd', {
 \   'semanticHighlighting': v:true
 \ })
 
-colorscheme dracula
-set background=dark
+let ayucolor="dark"
+let g:airline_theme='ayu_dark'
+colorscheme ayu
 
 let mapleader = " "
 
@@ -125,7 +144,9 @@ endif
 " Git Fugitive
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
-nmap <leader>gs :G<CR>
+nmap <leader>gs :Git<CR>
+nmap <leader>gc :Git commit<CR>
+nmap <leader>gp :Git push<CR>
 
 " Coc
 nmap <leader>qf <Plug>(coc-fix-current)
@@ -136,8 +157,13 @@ nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+nmap <leader>en (:! cd build && ninja<CR>
+
+"Telescope
+nnoremap <leader>ff <cmd>Telescope find_files <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 let g:coc_global_extensions = [
     \ 'coc-json',
@@ -153,4 +179,7 @@ let g:coc_global_extensions = [
     \ 'coc-html',
     \ 'coc-cmake',
     \ 'coc-marketplace',
+    \ 'coc-webpack',
+    \ 'coc-markdownlint',
+    \ 'coc-xml',
     \ ]
