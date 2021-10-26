@@ -19,7 +19,7 @@ set relativenumber
 set hidden
 set updatetime=300
 set shortmess+=c
-set colorcolumn=115
+set colorcolumn=88
 set encoding=UTF-8
 set cmdheight=1
 
@@ -61,6 +61,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-eunuch'
+Plug 'sbdchd/neoformat'
 Plug 'sharkdp/bat'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'ryanoasis/vim-devicons'
@@ -69,10 +70,6 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
-
-call coc#config('clangd', {
-\   'semanticHighlighting': v:true
-\ })
 
 let ayucolor="dark"
 let g:airline_theme='ayu_dark'
@@ -175,21 +172,27 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+let NERDTreeIgnore = ['\.pyc$', '\.lock$', '\.sqlite$', '\.qdrep$', '\.egg-info$', '__pycache__']
+
+let g:coc_user_config = {
+    \ 'clangd.semanticHighlighting': v:true,
+    \ 'python.linting.flake8Enabled': v:true,
+    \ }
+
 let g:coc_global_extensions = [
     \ 'coc-json',
     \ 'coc-prettier',
-    \ 'coc-jedi',
     \ 'coc-pairs',
     \ 'coc-tsserver',
     \ 'coc-eslint',
     \ 'coc-clangd',
     \ 'coc-yaml',
-    \ 'coc-python',
     \ 'coc-julia',
     \ 'coc-html',
     \ 'coc-cmake',
     \ 'coc-marketplace',
     \ 'coc-webpack',
+    \ 'coc-pyright',
     \ 'coc-markdownlint',
     \ 'coc-xml',
     \ ]
