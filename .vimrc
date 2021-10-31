@@ -23,12 +23,15 @@ set encoding=UTF-8
 set cmdheight=1
 set mouse=a
 set signcolumn=number
+highlight ColorColumn ctermbg=0 guibg=black
 
 
 
 call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'igankevich/mesonic'
 Plug 'tpope/vim-fugitive'
@@ -58,7 +61,6 @@ call plug#end()
 let ayucolor="dark"
 let g:airline_theme='ayu_dark'
 colorscheme ayu
-highlight ColorColumn ctermbg=0 guibg=black
 
 " Global
 let mapleader = " "
@@ -78,6 +80,19 @@ let NERDTreeIgnore = [
 
 " VimInspector
 let g:vimspector_enable_mappings = 'HUMAN'
+
+" Treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = true
+  },
+}
+EOF
 
 " Coc
 let g:ale_disable_lsp = 1
