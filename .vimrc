@@ -1,7 +1,7 @@
 syntax on
 
 set noerrorbells
-set tabstop=4 softtabstop=4
+set ts=4 sw=4 sts=4 et
 set shiftwidth=4
 set expandtab
 set nu
@@ -22,18 +22,12 @@ set shortmess+=c
 set colorcolumn=88
 set encoding=UTF-8
 set cmdheight=1
-
 set mouse=a
+set signcolumn=number
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
 highlight ColorColumn ctermbg=0 guibg=black
-
-if has("patch-8.1.1564")
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
 
 if exists('+termguicolors')
   let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
@@ -42,7 +36,6 @@ if exists('+termguicolors')
 endif
 
 call plug#begin('~/.vim/plugged')
-
 Plug 'puremourning/vimspector'
 Plug 'igankevich/mesonic'
 Plug 'mbbill/undotree'
@@ -69,6 +62,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'dense-analysis/ale'
 call plug#end()
 
 let ayucolor="dark"
@@ -155,6 +149,14 @@ nmap <leader>gs :Git<CR>
 nmap <leader>gc :Git commit<CR>
 nmap <leader>gp :Git push<CR>
 
+"Telescope
+nnoremap <leader>ff <cmd>Telescope find_files <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+let NERDTreeIgnore = ['\.pyc$', '\.lock$', '\.sqlite$', '\.qdrep$', '\.egg-info$', '__pycache__']
+
 " Coc
 nmap <leader>qf <Plug>(coc-fix-current)
 nmap <leader>gd <Plug>(coc-definition)
@@ -164,17 +166,20 @@ nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <leader>en (:! cd build && ninja<CR>
 
-"Telescope
-nnoremap <leader>ff <cmd>Telescope find_files <cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+let g:ale_disable_lsp = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_cpp_cpplint_options = '--linelength=88'
 
-let NERDTreeIgnore = ['\.pyc$', '\.lock$', '\.sqlite$', '\.qdrep$', '\.egg-info$', '__pycache__']
+let g:ale_linters = {
+    \   'cpp': [],
+    \}
 
 let g:coc_user_config = {
+    \ 'diagnostic.displayByAle': v:true,
     \ 'clangd.semanticHighlighting': v:true,
     \ 'python.linting.flake8Enabled': v:true,
     \ }
