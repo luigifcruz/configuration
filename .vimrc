@@ -2,7 +2,6 @@ syntax on
 
 set noerrorbells
 set ts=4 sw=4 sts=4 et
-set shiftwidth=4
 set expandtab
 set nu
 set nowrap
@@ -25,63 +24,105 @@ set cmdheight=1
 set mouse=a
 set signcolumn=number
 
-let g:vimspector_enable_mappings = 'HUMAN'
 
-highlight ColorColumn ctermbg=0 guibg=black
-
-if exists('+termguicolors')
-  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'puremourning/vimspector'
-Plug 'igankevich/mesonic'
-Plug 'mbbill/undotree'
+Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-utils/vim-man'
-Plug 'lyuts/vim-rtags'
+
+Plug 'igankevich/mesonic'
 Plug 'tpope/vim-fugitive'
-Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdtree'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'brooth/far.vim'
 Plug 'ayu-theme/ayu-vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
-Plug 'tpope/vim-eunuch'
-Plug 'sbdchd/neoformat'
-Plug 'sharkdp/bat'
-Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'dense-analysis/ale'
+
+Plug 'vim-utils/vim-man'
+Plug 'brooth/far.vim'
+Plug 'puremourning/vimspector'
+Plug 'mbbill/undotree'
+
+Plug 'lyuts/vim-rtags'
 call plug#end()
 
+
+
+" Coloscheme & Theme
 let ayucolor="dark"
 let g:airline_theme='ayu_dark'
 colorscheme ayu
+highlight ColorColumn ctermbg=0 guibg=black
 
+" Global
 let mapleader = " "
 
+" NERDTree
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0
-let g:netrw_winsize = 25
+let g:netrw_winsize = 30
+let NERDTreeIgnore = [
+    \ '\.pyc$',
+    \ '\.lock$',
+    \ '\.sqlite$',
+    \ '\.qdrep$',
+    \ '\.egg-info$',
+    \ '__pycache__'
+    \ ]
 
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>pv :NERDTree<CR>
-nnoremap <leader>pc :NERDTreeClose<CR>
-nnoremap <leader>pe :CocCommand python.setInterpreter<CR>
+" VimInspector
+let g:vimspector_enable_mappings = 'HUMAN'
+
+" Coc
+let g:ale_disable_lsp = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_cpp_cpplint_options = '--linelength=88'
+
+let g:ale_linters = {
+    \ 'cpp': [],
+    \ }
+
+let g:coc_user_config = {
+    \ 'diagnostic.displayByAle': v:true,
+    \ 'clangd.semanticHighlighting': v:true,
+    \ 'python.linting.flake8Enabled': v:true,
+    \ }
+
+let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-prettier',
+    \ 'coc-pairs',
+    \ 'coc-tsserver',
+    \ 'coc-eslint',
+    \ 'coc-clangd',
+    \ 'coc-yaml',
+    \ 'coc-julia',
+    \ 'coc-html',
+    \ 'coc-cmake',
+    \ 'coc-marketplace',
+    \ 'coc-webpack',
+    \ 'coc-pyright',
+    \ 'coc-markdownlint',
+    \ 'coc-xml',
+    \ ]
+
+
+
+" Miscellaneous Shortcuts
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 set backspace=indent,eol,start
 
@@ -142,6 +183,18 @@ call SetupCommandAlias("W","w")
 call SetupCommandAlias("Q","q")
 call SetupCommandAlias("Wq","wq")
 
+
+
+" NERDTree
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>pv :NERDTree<CR>
+nnoremap <leader>pc :NERDTreeClose<CR>
+nnoremap <leader>pe :CocCommand python.setInterpreter<CR>
+
+
 " Git Fugitive
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
@@ -149,13 +202,11 @@ nmap <leader>gs :Git<CR>
 nmap <leader>gc :Git commit<CR>
 nmap <leader>gp :Git push<CR>
 
-"Telescope
+" Telescope
 nnoremap <leader>ff <cmd>Telescope find_files <cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-let NERDTreeIgnore = ['\.pyc$', '\.lock$', '\.sqlite$', '\.qdrep$', '\.egg-info$', '__pycache__']
 
 " Coc
 nmap <leader>qf <Plug>(coc-fix-current)
@@ -166,38 +217,3 @@ nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
-
-let g:ale_disable_lsp = 1
-let g:airline#extensions#ale#enabled = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_cpp_cpplint_options = '--linelength=88'
-
-let g:ale_linters = {
-    \   'cpp': [],
-    \}
-
-let g:coc_user_config = {
-    \ 'diagnostic.displayByAle': v:true,
-    \ 'clangd.semanticHighlighting': v:true,
-    \ 'python.linting.flake8Enabled': v:true,
-    \ }
-
-let g:coc_global_extensions = [
-    \ 'coc-json',
-    \ 'coc-prettier',
-    \ 'coc-pairs',
-    \ 'coc-tsserver',
-    \ 'coc-eslint',
-    \ 'coc-clangd',
-    \ 'coc-yaml',
-    \ 'coc-julia',
-    \ 'coc-html',
-    \ 'coc-cmake',
-    \ 'coc-marketplace',
-    \ 'coc-webpack',
-    \ 'coc-pyright',
-    \ 'coc-markdownlint',
-    \ 'coc-xml',
-    \ ]
