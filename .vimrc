@@ -30,9 +30,7 @@ highlight ColorColumn ctermbg=0 guibg=black
 call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
 Plug 'igankevich/mesonic'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -91,6 +89,12 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gn",
+    },
+  },
 }
 EOF
 
@@ -103,7 +107,7 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_cpp_cpplint_options = '--linelength=88'
 
 let g:ale_linters = {
-    \ 'cpp': [],
+    \ 'cpp': ["clangd"],
     \ }
 
 let g:coc_user_config = {
