@@ -23,10 +23,12 @@ set encoding=UTF-8
 set cmdheight=1
 set mouse=a
 set signcolumn=number
+
+" Config
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 highlight ColorColumn ctermbg=0 guibg=black
 
-
-
+" Plug install
 call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -49,11 +51,7 @@ Plug 'vim-utils/vim-man'
 Plug 'brooth/far.vim'
 Plug 'puremourning/vimspector'
 Plug 'mbbill/undotree'
-
-Plug 'lyuts/vim-rtags'
 call plug#end()
-
-
 
 " Coloscheme & Theme
 let ayucolor="dark"
@@ -97,21 +95,23 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
-
-" Coc
+" ALE
 let g:ale_disable_lsp = 1
-let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled = 0
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_cpp_cpplint_options = '--linelength=88'
-
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
-    \ 'cpp': ["clangd"],
+    \ 'cpp': ["cpplint"],
     \ }
 
+" Coc
+let g:ale_disable_lsp = 1
+let g:airline#extensions#ale#enabled = 1
+
 let g:coc_user_config = {
-    \ 'diagnostic.displayByAle': v:true,
     \ 'clangd.semanticHighlighting': v:true,
     \ 'python.linting.flake8Enabled': v:true,
     \ }
@@ -178,19 +178,27 @@ function! s:check_back_space() abort
 endfunction
 
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <C-space> coc#refresh()
 
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <silent><expr> <c-@> coc#refresh()
 endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Create alias for uppercase after :
 fun! SetupCommandAlias(from, to)
@@ -201,8 +209,6 @@ endfun
 call SetupCommandAlias("W","w")
 call SetupCommandAlias("Q","q")
 call SetupCommandAlias("Wq","wq")
-
-
 
 " NERDTree
 nnoremap <leader>h :wincmd h<CR>
